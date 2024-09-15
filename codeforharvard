@@ -1,0 +1,26 @@
+#include <WiFi.h>
+#include <TFT_eSPI.h> // Include the graphics library (needs to be downloaded)
+TFT_eSPI tft = TFT_eSPI(); // Create object "tft"
+
+void setup() {
+  tft.init();
+  tft.setRotation(1);
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setTextSize(2);
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect();
+  delay(100);
+}
+
+void loop() {
+  tft.fillScreen(TFT_BLACK);
+  tft.setCursor(0, 0);
+  tft.println("Scanning...");
+  int n = WiFi.scanNetworks();
+  for (int i = 0; i < n; ++i) {
+  tft.println(WiFi.SSID(i));
+  delay(10);
+  }
+  delay(2000); // Pause before next scan
+}
